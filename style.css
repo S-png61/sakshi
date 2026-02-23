@@ -61,7 +61,14 @@ img {
   background-repeat: no-repeat;
   opacity: 0.6;
 }
-video {
+
+p {
+  font-family: 'Zeyada';
+  font-size: 50px;
+  color: rgb(0,0,100);
+  opacity: 0.75;
+  user-select: none;
+  video {
   position: fixed;
   right: 0;
   bottom: 0;
@@ -70,12 +77,6 @@ video {
   z-index: -1;
 }
 
-p {
-  font-family: 'Zeyada';
-  font-size: 50px;
-  color: rgb(0,0,100);
-  opacity: 0.75;
-  user-select: none;
   
   // filter: drop-shadow(2px 1.5px 1px rgba(0,0,105,0.9));
 }
