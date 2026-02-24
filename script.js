@@ -88,25 +88,29 @@ papers.forEach(paper => {
   p.init(paper);
 });
 const video = document.querySelector('video');
+
 let isDragging = false;
-let initialX, initialY, xOffset = 0, yOffset = 0;
+let initialX, initialY;
+let xOffset = 0;
+let yOffset = 0;
+
 video.addEventListener('touchstart', (e) => {
-initialX = e.touches.clientX - xOffset;
-initialY = e.touches.clientY - yOffset;
-if (e.target === video) {
-isDragging = true;
-}
+  initialX = e.touches.clientX - xOffset;
+  initialY = e.touches.clientY - yOffset;
+  isDragging = true;
 });
+
 video.addEventListener('touchmove', (e) => {
-if (isDragging) {
-e.preventDefault();
-xOffset = e.touches.clientX - initialX;
-yOffset = e.touches.clientY - initialY;
-video.style.transform = "translate3d(" + xOffset + "px, " + yOffset + "px, 0)";
-}
+  if (isDragging) {
+    e.preventDefault();
+    const currentX = e.touches.clientX - initialX;
+    const currentY = e.touches.clientY - initialY;
+    xOffset = currentX;
+    yOffset = currentY;
+    video.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
+  }
 });
-video.addEventListener('touchend', (e) => {
-initialX = xOffset;
-initialY = yOffset;
-isDragging = false;
+
+video.addEventListener('touchend', () => {
+  isDragging = false;
 });
