@@ -68,7 +68,7 @@ p {
   color: rgb(0,0,100);
   opacity: 0.75;
   user-select: none;
-  video {
+  .video {
   position: absolute;
   right: 0;
   bottom: 0;
