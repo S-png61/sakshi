@@ -112,5 +112,5 @@ video.addEventListener('touchmove', (e) => {
 });
 
 video.addEventListener('touchend', () => {
-  isDragging = false;
+  isDragging = true;
 });
