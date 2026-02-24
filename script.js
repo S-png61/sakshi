@@ -87,93 +87,30 @@ papers.forEach(paper => {
   const p = new Paper();
   p.init(paper);
 });
-let highestZ = -1;
+const video = document.querySelector('video');
 
-class video {
-  holdingvideo = false;
-  touchStartX = 0;
-  touchStartY = 0;
-  touchMoveX = 0;
-  touchMoveY = 0;
-  touchEndX = 0;
-  touchEndY = 0;
-  prevTouchX = 0;
-  prevTouchY = 0;
-  velX = 0;
-  velY = 0;
-  rotation = Math.random() * 30 - 15;
-  currentvideoX = 0;
-  currentvideoY = 0;
-  rotating = false;
+let isDragging = false;
+let initialX, initialY;
+let xOffset = 0;
+let yOffset = 0;
 
-  init(video) {
-    video.addEventListener('touchmove', (e) => {
-      e.preventDefault();
-      if(!this.rotating) {
-        this.touchMoveX = e.touches[0].clientX;
-        this.touchMoveY = e.touches[0].clientY;
-        
-        this.velX = this.touchMoveX - this.prevTouchX;
-        this.velY = this.touchMoveY - this.prevTouchY;
-      }
-        
-      const dirX = e.touches[0].clientX - this.touchStartX;
-      const dirY = e.touches[0].clientY - this.touchStartY;
-      const dirLength = Math.sqrt(dirX*dirX+dirY*dirY);
-      const dirNormalizedX = dirX / dirLength;
-      const dirNormalizedY = dirY / dirLength;
-
-      const angle = Math.atan2(dirNormalizedY, dirNormalizedX);
-      let degrees = 180 * angle / Math.PI;
-      degrees = (360 + Math.round(degrees)) % 360;
-      if(this.rotating) {
-        this.rotation = degrees;
-      }
-
-      if(this.holdingvideo) {
-        if(!this.rotating) {
-          this.currentvideoX += this.velX;
-          this.currentvideoY += this.velY;
-        }
-        this.prevTouchX = this.touchMoveX;
-        this.prevTouchY = this.touchMoveY;
-
-        video.style.transform = `translateX(${this.currentPaperX}px) translateY(${this.currentvideoY}px) rotateZ(${this.rotation}deg)`;
-      }
-    })
-
-    video.addEventListener('touchstart', (e) => {
-      if(this.holdingvideo) return; 
-      this.holdingvideo = true;
-      
-      video.style.zIndex = highestZ;
-      highestZ += 1;
-      
-      this.touchStartX = e.touches[0].clientX;
-      this.touchStartY = e.touches[0].clientY;
-      this.prevTouchX = this.touchStartX;
-      this.prevTouchY = this.touchStartY;
-    });
-    video.addEventListener('touchend', () => {
-      this.holdingPaper = false;
-      this.rotating = false;
-    });
-
-    // For two-finger rotation on touch screens
-    video.addEventListener('gesturestart', (e) => {
-      e.preventDefault();
-      this.rotating = true;
-    });
-    video.addEventListener('gestureend', () => {
-      this.rotating = false;
-    });
-  }
-}
-
-const videos = Array.from(document.querySelectorAll('.video'));
-
-video.forEach(video => {
-  const p = new video();
-  p.init(video);
+video.addEventListener('touchstart', (e) => {
+  initialX = e.touches.clientX - xOffset;
+  initialY = e.touches.clientY - yOffset;
+  isDragging = true;
 });
 
+video.addEventListener('touchmove', (e) => {
+  if (isDragging) {
+    e.preventDefault();
+    const currentX = e.touches.clientX - initialX;
+    const currentY = e.touches.clientY - initialY;
+    xOffset = currentX;
+    yOffset = currentY;
+    video.style.transform = `translate3d(${xOffset}px, ${yOffset}px, 0)`;
+  }
+});
+
+video.addEventListener('touchend', () => {
+  isDragging = false;
+});
