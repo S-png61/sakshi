@@ -69,7 +69,7 @@ p {
   opacity: 0.75;
   user-select: none;
   video {
-  position: absolute;
+  position: relative;
   right: 0;
   bottom: 0;
   min-width: 100%;
